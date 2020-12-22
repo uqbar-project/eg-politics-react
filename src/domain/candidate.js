@@ -1,0 +1,26 @@
+import { sortBy } from "lodash"
+import { Promesa } from "./promesa"
+
+let lastId = 1
+
+export class Candidate {
+
+  constructor(_nombre, _partido, _promesas) {
+    this.id = lastId++
+    this.nombre = _nombre
+    this.partido = _partido
+    this.promesas = (_promesas || []).map((descripcionPromesa) => new Promesa(descripcionPromesa, true))
+  }
+
+  agregarPromesa(descripcionPromesa) {
+    this.promesas.push(new Promesa(descripcionPromesa))
+  }
+
+  buscarPorNombre(_nombre) {
+    return this.nombre === _nombre
+  }
+
+  promesasPorFecha() {
+    return sortBy(this.promesas, "fecha")
+  }
+}

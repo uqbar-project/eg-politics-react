@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+.titulo {
+  margin: 1rem 2rem;
+  background-color: lightblue;
+  padding: 2rem 2rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.section {
+  margin: 1rem 1rem;
+}
