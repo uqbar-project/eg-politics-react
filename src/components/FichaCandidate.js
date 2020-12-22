@@ -38,9 +38,10 @@ export const FichaCandidate = function() {
         Consulta de Candidates
       </div>
       <div className="section">
-        {candidate?.nombre}
+        <span className="etiqueta">{candidate?.nombre}</span>
+        <span className="p-tag p-tag-rounded p-tag-warning">{candidate?.partido}</span>
       </div>
-      <span className="p-tag p-tag-rounded p-tag-warning">{candidate?.partido}</span>
+      <hr></hr>
       <div className="section">
         <InputText value={promesaNueva} onSubmit={() => agregarPromesa()} onChange={(e) => setPromesaNueva(e.target.value)} placeholder="Ingrese aquí una promesa nueva..." className={!!promesaNueva ? '' : 'p-invalid'} style={{width: '20em', textAlign: 'left'}}/>
         <Button label="Agregar" className="p-button-primary p-button-raised" onClick={() => agregarPromesa()}>

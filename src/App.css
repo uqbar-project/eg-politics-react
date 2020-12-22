@@ -47,4 +47,13 @@
 
 .section {
   margin: 1rem 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+}
+
+.etiqueta {
+  margin: 1rem 1rem;
 }
