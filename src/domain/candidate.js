@@ -10,6 +10,7 @@ export class Candidate {
     this.nombre = _nombre
     this.partido = _partido
     this.promesas = (_promesas || []).map((descripcionPromesa) => new Promesa(descripcionPromesa, true))
+    this.votos = 0
   }
 
   agregarPromesa(descripcionPromesa) {
@@ -23,4 +24,8 @@ export class Candidate {
   promesasPorFecha() {
     return sortBy(this.promesas, "fecha")
   }
-}
+
+  registrarVoto() {
+    this.votos++
+  }
+} 

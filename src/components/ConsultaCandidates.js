@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react'
 import { zonaService } from '../services/zonaService'
 import { isEmpty } from 'lodash'
 import { useHistory } from "react-router-dom"
+import { orderBy } from 'lodash'
+import { candidateService} from '../services/candidateService'
 
 export const ConsultaCandidates = function() {
   const [zonas, setZonas] = useState([])
@@ -24,10 +26,17 @@ export const ConsultaCandidates = function() {
     }, []
   )
 
+  const registrarVoto = function(candidate) {
+    return <Button icon="pi pi-user-plus" tooltip="Registrar Voto" className="p-button-secondary p-button-raised p-button-rounded" onClick={() => {
+      candidate.registrarVoto()
+      // por ahora es un JSON, se puede hacer una copia
+      setZonaSeleccionada({ ...zonaSeleccionada })
+      candidateService.actualizar()
+    }}/>
+  }
+
   const verFicha = function(candidate) {
-    return <Button tooltip="Ver Ficha" className="p-button-secondary p-button-raised p-button-rounded p-button-outlined" onClick={() => {history.push('/ficha/' + candidate.id)}}>
-      <i className="pi pi-chevron-right" />
-    </Button>
+    return <Button icon="pi pi-chevron-right" tooltip="Ver Ficha" className="p-button-secondary p-button-raised p-button-rounded p-button-outlined" onClick={() => {history.push('/ficha/' + candidate.id)}}/>
   }
 
   return (
@@ -39,10 +48,12 @@ export const ConsultaCandidates = function() {
         <Dropdown style={{width: '20em', textAlign: 'left'}} optionLabel="descripcion" value={zonaSeleccionada} options={zonas} onChange={(e) => {setZonaSeleccionada(e.value)}} placeholder="Seleccione una zona"/>
       </div>
       <div className="section">
-        <DataTable value={zonaSeleccionada?.candidates}>
+        <DataTable value={orderBy(zonaSeleccionada?.candidates, ["votos"], ["desc"])}>
           <Column field="nombre" header="Nombre"></Column>
           <Column field="partido" header="Partido"></Column>
-          <Column body={verFicha} />
+          <Column field="votos" header="Votos"></Column>
+          <Column body={registrarVoto} style={{width:'7em'}} />
+          <Column body={verFicha} style={{width:'10em'}} />
         </DataTable>
       </div>
     </div>

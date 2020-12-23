@@ -21,7 +21,7 @@ class CandidateService {
   }
 
   async actualizar(candidate) {
-    
+    // por ahora no hace anda
   }
 }
 
