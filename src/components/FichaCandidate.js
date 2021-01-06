@@ -35,7 +35,7 @@ export const FichaCandidate = function() {
   return (
     <div>
       <div className="titulo">
-        Consulta de Candidates
+        Ficha Candidate
       </div>
       <div className="section">
         <span className="etiqueta">{candidate?.nombre}</span>
