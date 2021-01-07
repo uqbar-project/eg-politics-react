@@ -9,7 +9,7 @@ export class Candidate {
     this.id = lastId++
     this.nombre = _nombre
     this.partido = _partido
-    this.promesas = (_promesas || []).map((descripcionPromesa) => new Promesa(descripcionPromesa, true))
+    this.promesas = (_promesas || []).map(({ accionPrometida, fecha }) => new Promesa(accionPrometida, fecha))
     this.votos = 0
   }
 

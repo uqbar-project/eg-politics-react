@@ -1,12 +1,10 @@
 import { DateTime } from "luxon"
 
-const crearFechaRandom = () => DateTime.fromMillis(new Date().getTime() - (Math.random() * 364 * 1000 * 60 * 60 * 24))
-
 export class Promesa {
 
-  constructor(descripcionPromesa, fechaRandom = false) {
+  constructor(descripcionPromesa, fecha = DateTime.local()) {
     this.descripcion = descripcionPromesa
-    this.fecha = fechaRandom ? crearFechaRandom() : DateTime.local()
+    this.fecha = DateTime.fromISO(fecha)
   }
 
   get fechaAMostrar() {

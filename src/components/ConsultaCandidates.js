@@ -35,11 +35,10 @@ export const ConsultaCandidates = function() {
   )
 
   const registrarVoto = function(candidate) {
-    return <Button icon="pi pi-user-plus" tooltip="Registrar Voto" className="p-button-secondary p-button-raised p-button-rounded" onClick={() => {
+    return <Button icon="pi pi-user-plus" tooltip="Registrar Voto" className="p-button-secondary p-button-raised p-button-rounded" onClick={async () => {
       candidate.registrarVoto()
-      // por ahora es un JSON, se puede hacer una copia
-      setZonaSeleccionada(zonaSeleccionada)
-      candidateService.actualizar()
+      await candidateService.actualizar(candidate)
+      setZonaSeleccionada({ ...zonaSeleccionada })
     }}/>
   }
 
