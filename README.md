@@ -34,6 +34,7 @@ En la pantalla principal podemos seleccionar la zona de votación, lo que define
 
 - la resolución del backend está en [este repositorio](https://github.com/uqbar-project/eg-politics-react)
 - la solución que utiliza el backend REST está en el branch [`final`](https://github.com/uqbar-project/eg-politics-react/tree/final)
+- la explicación está en [este apunte](https://docs.google.com/document/d/13vAmPKbWfWpRWze3AhLwnCHfWktfIIXnju3PD_tzyW4/edit)
 
 
 
