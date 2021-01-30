@@ -11,7 +11,11 @@ class CandidateService {
   }
 
   async actualizar(candidate) {
-    await axios.put(SERVER_CONNECTION + 'candidatos/' + candidate.id, candidate)
+    await axios.put(SERVER_CONNECTION + 'candidatos/' + candidate.id, {
+      id: candidate.id,
+      votos: candidate.votos,
+      promesas: candidate.promesas,
+    })
   }
 }
 
