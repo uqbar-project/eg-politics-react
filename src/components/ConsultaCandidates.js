@@ -5,7 +5,7 @@ import { Column } from 'primereact/column'
 import { useEffect, useState } from 'react'
 import { zonaService } from '../services/zonaService'
 import { isEmpty } from 'lodash'
-import { useHistory } from "react-router-dom"
+import { useHistory } from 'react-router-dom'
 import { orderBy } from 'lodash'
 import { candidateService} from '../services/candidateService'
 
@@ -55,7 +55,7 @@ export const ConsultaCandidates = function() {
         <Dropdown style={{width: '20em', textAlign: 'left'}} optionLabel="descripcion" value={zonaSeleccionada} options={zonas} onChange={(e) => {elegirZona(zonas, e.value)}} placeholder="Seleccione una zona"/>
       </div>
       <div className="section">
-        <DataTable value={orderBy(zonaSeleccionada?.candidatos, ["votos"], ["desc"])}>
+        <DataTable value={orderBy(zonaSeleccionada?.candidatos, ['votos'], ['desc'])}>
           <Column field="nombre" header="Nombre"></Column>
           <Column field="partido.nombre" header="Partido"></Column>
           <Column field="votos" header="Votos"></Column>

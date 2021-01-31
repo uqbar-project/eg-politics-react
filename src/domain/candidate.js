@@ -1,5 +1,5 @@
-import { sortBy } from "lodash"
-import { Promesa } from "./promesa"
+import { sortBy } from 'lodash'
+import { Promesa } from './promesa'
 
 let lastId = 1
 
@@ -22,7 +22,7 @@ export class Candidate {
   }
 
   promesasPorFecha() {
-    return sortBy(this.promesas, "fecha")
+    return sortBy(this.promesas, 'fecha')
   }
 
   registrarVoto() {

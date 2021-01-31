@@ -1,6 +1,6 @@
-import axios from "axios"
-import { Candidate } from "../domain/candidate"
-import { SERVER_CONNECTION } from "./serverConstants"
+import axios from 'axios'
+import { Candidate } from '../domain/candidate'
+import { SERVER_CONNECTION } from './serverConstants'
 
 class ZonaService {
 

@@ -1,11 +1,11 @@
 import { Button } from 'primereact/button'
-import { Column } from "primereact/column"
-import { DataTable } from "primereact/datatable"
-import { InputText } from "primereact/inputtext"
-import { useEffect, useState } from "react"
-import { useHistory, useParams } from "react-router-dom"
-import { Candidate } from "../domain/candidate"
-import { candidateService } from "../services/candidateService"
+import { Column } from 'primereact/column'
+import { DataTable } from 'primereact/datatable'
+import { InputText } from 'primereact/inputtext'
+import { useEffect, useState } from 'react'
+import { useHistory, useParams } from 'react-router-dom'
+import { Candidate } from '../domain/candidate'
+import { candidateService } from '../services/candidateService'
 
 export const FichaCandidate = function() {
   const {id} = useParams()
