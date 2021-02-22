@@ -11,7 +11,7 @@ export const FichaCandidate = function() {
   const {id} = useParams()
   const history = useHistory()
 
-  const [candidate, setCandidate] = useState(new Candidate('', ''))
+  const [candidate, setCandidate] = useState(new Candidate(null, '', ''))
   const [promesaNueva, setPromesaNueva] = useState('')
   
   const agregarPromesa = () => {
@@ -54,7 +54,7 @@ export const FichaCandidate = function() {
         </DataTable>
       </div>
       <div className="section">
-        <Button label="Volver a ver los candidatos" className="p-button-secondary p-button-raised p-button-outlined" onClick={() => {history.push('/')}}>
+        <Button label="Volver a ver las candidaturas" className="p-button-secondary p-button-raised p-button-outlined" onClick={() => {history.push('/')}}>
         </Button>
       </div>
     </div>

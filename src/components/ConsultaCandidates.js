@@ -55,7 +55,7 @@ export const ConsultaCandidates = function() {
         <Dropdown style={{width: '20em', textAlign: 'left'}} optionLabel="descripcion" value={zonaSeleccionada} options={zonas} onChange={(e) => {elegirZona(zonas, e.value)}} placeholder="Seleccione una zona"/>
       </div>
       <div className="section">
-        <DataTable value={orderBy(zonaSeleccionada?.candidatos, ['votos'], ['desc'])}>
+        <DataTable value={orderBy(zonaSeleccionada?.candidates, ['votos'], ['desc'])}>
           <Column field="nombre" header="Nombre"></Column>
           <Column field="partido.nombre" header="Partido"></Column>
           <Column field="votos" header="Votos"></Column>

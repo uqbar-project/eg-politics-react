@@ -5,16 +5,16 @@ let lastId = 1
 
 export class Candidate {
 
-  constructor(_nombre, _partido, _promesas) {
-    this.id = lastId++
+  constructor(_id, _nombre, _partido, _promesas) {
+    this.id = _id || lastId++
     this.nombre = _nombre
     this.partido = _partido
-    this.promesas = (_promesas || []).map(({ accionPrometida, fecha }) => new Promesa(accionPrometida, fecha))
+    this.promesas = (_promesas || []).map(({ id, accionPrometida, fecha }) => new Promesa(id, accionPrometida, fecha))
     this.votos = 0
   }
 
   agregarPromesa(descripcionPromesa) {
-    this.promesas.push(new Promesa(descripcionPromesa))
+    this.promesas.push(new Promesa(null, descripcionPromesa))
   }
 
   buscarPorNombre(_nombre) {
