@@ -2,7 +2,8 @@ import { Button } from 'primereact/button'
 import { Column } from 'primereact/column'
 import { DataTable } from 'primereact/datatable'
 import { InputText } from 'primereact/inputtext'
-import { useEffect, useState } from 'react'
+import { Toast } from 'primereact/toast'
+import { createRef, useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { Candidate } from '../domain/candidate'
 import { candidateService } from '../services/candidateService'
@@ -10,7 +11,8 @@ import { candidateService } from '../services/candidateService'
 export const FichaCandidate = function() {
   const {id} = useParams()
   const history = useHistory()
-
+  const toast = createRef()
+  
   const [candidate, setCandidate] = useState(new Candidate(null, '', ''))
   const [promesaNueva, setPromesaNueva] = useState('')
   
@@ -25,8 +27,13 @@ export const FichaCandidate = function() {
 
   useEffect(() => {
     const getCandidate = async function() { 
-      const candidate = await candidateService.buscarPorId(id)
-      setCandidate(candidate)
+      try {
+        const candidate = await candidateService.buscarPorId(id)
+        setCandidate(candidate)
+      } catch (e) {
+        console.log(e)
+        toast.current.show({ severity: 'error', summary: 'Ocurrió un error al traer los datos de la persona candidata.', detail: e.message})
+      }
     }
     getCandidate()
     }, []
@@ -56,6 +63,9 @@ export const FichaCandidate = function() {
       <div className="section">
         <Button label="Volver a ver las candidaturas" className="p-button-secondary p-button-raised p-button-outlined" onClick={() => {history.push('/')}}>
         </Button>
+      </div>
+      <div className="section">
+        <Toast ref={toast} />
       </div>
     </div>
   )
