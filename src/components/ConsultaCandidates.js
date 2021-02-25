@@ -74,7 +74,7 @@ export const ConsultaCandidates = function() {
       <div className="section">
         <DataTable value={orderBy(zonaSeleccionada?.candidates, ['votos'], ['desc'])}>
           <Column field="nombre" header="Nombre"></Column>
-          <Column field="partido.nombre" header="Partido"></Column>
+          <Column field="partido" header="Partido"></Column>
           <Column field="votos" header="Votos"></Column>
           <Column body={registrarVoto} style={{width:'7em'}} />
           <Column body={verFicha} style={{width:'10em'}} />
