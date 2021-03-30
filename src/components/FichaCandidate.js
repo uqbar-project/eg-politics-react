@@ -3,7 +3,7 @@ import { Column } from 'primereact/column'
 import { DataTable } from 'primereact/datatable'
 import { InputText } from 'primereact/inputtext'
 import { Toast } from 'primereact/toast'
-import { createRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { Candidate } from '../domain/candidate'
 import { candidateService } from '../services/candidateService'
@@ -11,18 +11,29 @@ import { candidateService } from '../services/candidateService'
 export const FichaCandidate = function() {
   const {id} = useParams()
   const history = useHistory()
-  const toast = createRef()
+  const toast = useRef(null)
   
+  function showError(message) {
+    toast.current.show({ severity: 'error', summary: 'Ocurrió un error al actualizar los datos de la persona candidata.', detail: message})
+  }
+
   const [candidate, setCandidate] = useState(new Candidate(null, '', ''))
   const [promesaNueva, setPromesaNueva] = useState('')
   
-  const agregarPromesa = () => {
-    if (!promesaNueva) return
-    candidate.agregarPromesa(promesaNueva)
-    const nuevoCandidate = Object.assign(new Candidate(), candidate)
-    setCandidate(nuevoCandidate)
-    setPromesaNueva('')
-    candidateService.actualizar(candidate)
+  const agregarPromesa = async () => {
+    try {
+      if (!promesaNueva) return
+      candidate.agregarPromesa(promesaNueva)
+      setPromesaNueva('')
+      await candidateService.actualizar(candidate)
+      const nuevoCandidate = Object.assign(new Candidate(), candidate)
+      setCandidate(nuevoCandidate)
+    } catch (e) {
+      console.log(e)
+      showError('Ocurrió un error al actualizar los datos de la persona candidata.')
+      const candidate = await candidateService.buscarPorId(id)
+      setCandidate(candidate)
+    }
   }
 
   useEffect(() => {
@@ -32,7 +43,7 @@ export const FichaCandidate = function() {
         setCandidate(candidate)
       } catch (e) {
         console.log(e)
-        toast.current.show({ severity: 'error', summary: 'Ocurrió un error al traer los datos de la persona candidata.', detail: e.message})
+        showError('Ocurrió un error al traer los datos de la persona candidata.')
       }
     }
     getCandidate()
@@ -51,7 +62,7 @@ export const FichaCandidate = function() {
       <hr></hr>
       <div className="section">
         <InputText value={promesaNueva} onSubmit={() => agregarPromesa()} onChange={(e) => setPromesaNueva(e.target.value)} placeholder="Ingrese aquí una promesa nueva..." className={!!promesaNueva ? '' : 'p-invalid'} style={{width: '20em', textAlign: 'left'}}/>
-        <Button label="Agregar" className="p-button-primary p-button-raised" onClick={() => agregarPromesa()}>
+        <Button label="Agregar" className="p-button-primary p-button-raised" onClick={async () => await agregarPromesa()}>
         </Button>
       </div>
       <div className="section">

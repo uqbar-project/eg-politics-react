@@ -3,7 +3,7 @@ import { DataTable } from 'primereact/datatable'
 import { Button } from 'primereact/button'
 import { Column } from 'primereact/column'
 import { Toast } from 'primereact/toast'
-import { createRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { zonaService } from '../services/zonaService'
 import { isEmpty } from 'lodash'
 import { useHistory } from 'react-router-dom'
@@ -14,7 +14,7 @@ export const ConsultaCandidates = function() {
   const [zonas, setZonas] = useState([])
   const [zonaSeleccionada, setZonaSeleccionada] = useState(undefined)
   const history = useHistory()
-  const toast = createRef()
+  const toast = useRef(null)
 
   async function elegirZona(zonas, zona) {
     try {
@@ -74,7 +74,7 @@ export const ConsultaCandidates = function() {
       <div className="section">
         <DataTable value={orderBy(zonaSeleccionada?.candidates, ['votos'], ['desc'])}>
           <Column field="nombre" header="Nombre"></Column>
-          <Column field="partido" header="Partido"></Column>
+          <Column field="partido.nombre" header="Partido"></Column>
           <Column field="votos" header="Votos"></Column>
           <Column body={registrarVoto} style={{width:'7em'}} />
           <Column body={verFicha} style={{width:'10em'}} />

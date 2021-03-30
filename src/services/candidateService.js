@@ -14,7 +14,6 @@ class CandidateService {
 
   async actualizar(candidate) {
     await axios.put(SERVER_CONNECTION + CANDIDATE_URI + candidate.id, {
-      id: candidate.id,
       votos: candidate.votos,
       promesas: candidate.promesas.map(promesa => promesa.toDTO()),
     })
