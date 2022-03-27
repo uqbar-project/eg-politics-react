@@ -1,6 +1,6 @@
 import { DateTime } from "luxon"
 
-const crearFechaRandom = () => DateTime.fromMillis(new Date().getTime() - (Math.random() * 364 * 1000 * 60 * 60 * 24))
+const crearFechaRandom = () => DateTime.fromMillis(new Date().getTime() - Math.random() * 364 * 1000 * 60 * 60 * 24)
 
 export class Promesa {
 
