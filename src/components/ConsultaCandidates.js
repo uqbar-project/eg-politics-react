@@ -31,15 +31,21 @@ export const ConsultaCandidates = function() {
 
   useEffect(() => {
     const getZonas = async function() { 
-      const zonas = await zonaService.zonas()
-      setZonas(zonas)
-      if (!isEmpty(zonas)) {
-        setZonaSeleccionada(zonas[0])
+      try {
+        const zonas = await zonaService.zonas()
+        if (!isEmpty(zonas)) {
+          await elegirZona(zonas, zonas[0])
+        }
+        setZonas(zonas)
+      } catch (e) {
+        console.log(e)
+        toast.current.show({ severity: 'error', summary: 'Ocurrió un error al traer las zonas de votación.', detail: e.message})
       }
     }
     getZonas()
     }, []
   )
+
 
   const registrarVoto = function(candidate) {
     return <Button icon="pi pi-user-plus" tooltip="Registrar Voto" className="p-button-secondary p-button-raised p-button-rounded" onClick={() => {
