@@ -19,13 +19,20 @@ export const FichaCandidate = function() {
   const [candidate, setCandidate] = useState(new Candidate('', ''))
   const [promesaNueva, setPromesaNueva] = useState('')
   
-  const agregarPromesa = () => {
-    if (!promesaNueva) return
-    candidate.agregarPromesa(promesaNueva)
-    const nuevoCandidate = Object.assign(new Candidate(), candidate)
-    setCandidate(nuevoCandidate)
-    setPromesaNueva('')
-    candidateService.actualizar(candidate)
+  const agregarPromesa = async () => {
+    try {
+      if (!promesaNueva) return
+      candidate.agregarPromesa(promesaNueva)
+      setPromesaNueva('')
+      await candidateService.actualizar(candidate)
+      const nuevoCandidate = Object.assign(new Candidate(), candidate)
+      setCandidate(nuevoCandidate)
+    } catch (e) {
+      console.log(e)
+      showError('Ocurrió un error al actualizar los datos de la persona candidata.')
+      const candidate = await candidateService.buscarPorId(id)
+      setCandidate(candidate)
+    }
   }
 
   useEffect(() => {

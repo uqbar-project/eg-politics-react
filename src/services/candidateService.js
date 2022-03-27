@@ -20,7 +20,7 @@ class CandidateService {
     return candidates.find((candidate) => candidate.id === parseInt(id))
   }
 
-  async actualizar(candidate) {
+  async actualizar() {
     // por ahora no hace anda
   }
 }

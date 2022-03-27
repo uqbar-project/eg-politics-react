@@ -2,7 +2,7 @@ import { candidateService } from "./candidateService"
 
 let zonas = []
 
-initZonas().then((nuevasZonas) => zonas = nuevasZonas)
+initZonas().then((nuevasZonas) => { zonas = nuevasZonas })
 
 async function initZonas() {
   return [
