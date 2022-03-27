@@ -6,14 +6,14 @@ import { Toast } from 'primereact/toast'
 import { useRef, useEffect, useState } from 'react'
 import { zonaService } from '../services/zonaService'
 import { isEmpty } from 'lodash'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { orderBy } from 'lodash'
 import { candidateService} from '../services/candidateService'
 
 export const ConsultaCandidates = function() {
   const [zonas, setZonas] = useState([])
   const [zonaSeleccionada, setZonaSeleccionada] = useState(undefined)
-  const history = useHistory()
+  const navigate = useNavigate()
   const toast = useRef(null)
 
   async function elegirZona(zonas, zona) {
@@ -21,6 +21,7 @@ export const ConsultaCandidates = function() {
       const idZonaSeleccionada = zona.id
       const indiceAModificar = zonas.map((zona) => zona.id).indexOf(idZonaSeleccionada)
       const zonaElegida = await zonaService.getZonaSeleccionada(idZonaSeleccionada)
+      // eslint-disable-next-line require-atomic-updates
       zonas[indiceAModificar] = zonaElegida
       setZonaSeleccionada(zonaElegida)
     } catch (e) {
@@ -60,7 +61,7 @@ export const ConsultaCandidates = function() {
   }
 
   const verFicha = function(candidate) {
-    return <Button icon="pi pi-chevron-right" tooltip="Ver Ficha" className="p-button-secondary p-button-raised p-button-rounded p-button-outlined" onClick={() => {history.push('/ficha/' + candidate.id)}}/>
+    return <Button icon="pi pi-chevron-right" tooltip="Ver Ficha" className="p-button-secondary p-button-raised p-button-rounded p-button-outlined" onClick={() => {navigate('/ficha/' + candidate.id)}}/>
   }
 
   return (
@@ -71,7 +72,7 @@ export const ConsultaCandidates = function() {
       <div className="section">
         <Dropdown style={{width: '20em', textAlign: 'left'}} optionLabel="descripcion" value={zonaSeleccionada} options={zonas} onChange={(e) => {elegirZona(zonas, e.value)}} placeholder="Seleccione una zona"/>
       </div>
-      <div className="section">
+      <div>
         <DataTable value={orderBy(zonaSeleccionada?.candidates, ['votos'], ['desc'])}>
           <Column field="nombre" header="Nombre"></Column>
           <Column field="partido.nombre" header="Partido"></Column>

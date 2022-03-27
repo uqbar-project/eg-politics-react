@@ -13,10 +13,10 @@ export class Promesa {
   }
 
   toDTO() {
-    return ({
+    return {
       id: this.id,
       accionPrometida: this.descripcion,
       fecha: this.fecha.toFormat('yyyy-MM-dd')
-    })
+    }
   }
 }
