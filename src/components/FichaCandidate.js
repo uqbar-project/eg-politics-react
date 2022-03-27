@@ -1,15 +1,20 @@
 import { Button } from 'primereact/button'
-import { Column } from "primereact/column"
-import { DataTable } from "primereact/datatable"
-import { InputText } from "primereact/inputtext"
-import { useEffect, useState } from "react"
-import { useHistory, useParams } from "react-router-dom"
-import { Candidate } from "../domain/candidate"
-import { candidateService } from "../services/candidateService"
+import { Column } from 'primereact/column'
+import { DataTable } from 'primereact/datatable'
+import { InputText } from 'primereact/inputtext'
+import { useRef, useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Candidate } from '../domain/candidate'
+import { candidateService } from '../services/candidateService'
 
 export const FichaCandidate = function() {
   const {id} = useParams()
-  const history = useHistory()
+  const navigate = useNavigate()
+  const toast = useRef(null)
+  
+  function showError(message) {
+    toast.current.show({ severity: 'error', summary: 'Ocurrió un error al actualizar los datos de la persona candidata.', detail: message})
+  }
 
   const [candidate, setCandidate] = useState(new Candidate('', ''))
   const [promesaNueva, setPromesaNueva] = useState('')
@@ -43,8 +48,8 @@ export const FichaCandidate = function() {
       </div>
       <hr></hr>
       <div className="section">
-        <InputText value={promesaNueva} onSubmit={() => agregarPromesa()} onChange={(e) => setPromesaNueva(e.target.value)} placeholder="Ingrese aquí una promesa nueva..." className={!!promesaNueva ? '' : 'p-invalid'} style={{width: '20em', textAlign: 'left'}}/>
-        <Button label="Agregar" className="p-button-primary p-button-raised" onClick={() => agregarPromesa()}>
+        <InputText value={promesaNueva} onSubmit={() => agregarPromesa()} onChange={(e) => setPromesaNueva(e.target.value)} placeholder="Ingrese aquí una promesa nueva..." className={promesaNueva ? '' : 'p-invalid'} style={{width: '20em', textAlign: 'left'}}/>
+        <Button label="Agregar" className="p-button-primary p-button-raised" onClick={async () => agregarPromesa()}>
         </Button>
       </div>
       <div className="section">
@@ -54,7 +59,7 @@ export const FichaCandidate = function() {
         </DataTable>
       </div>
       <div className="section">
-        <Button label="Volver a ver los candidatos" className="p-button-secondary p-button-raised p-button-outlined" onClick={() => {history.push('/')}}>
+        <Button label="Volver a ver las candidaturas" className="p-button-secondary p-button-raised p-button-outlined" onClick={() => {navigate('/')}}>
         </Button>
       </div>
     </div>
