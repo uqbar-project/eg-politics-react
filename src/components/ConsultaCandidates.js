@@ -2,7 +2,7 @@ import { Dropdown } from 'primereact/dropdown'
 import { DataTable } from 'primereact/datatable'
 import { Button } from 'primereact/button'
 import { Column } from 'primereact/column'
-import { useEffect, useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { zonaService } from '../services/zonaService'
 import { isEmpty } from 'lodash'
 import { useNavigate } from 'react-router-dom'
@@ -15,26 +15,13 @@ export const ConsultaCandidates = function() {
   const navigate = useNavigate()
   const toast = useRef(null)
 
-  async function elegirZona(zonas, zona) {
-    try {
-      const idZonaSeleccionada = zona.id
-      const indiceAModificar = zonas.map((zona) => zona.id).indexOf(idZonaSeleccionada)
-      const zonaElegida = await zonaService.getZonaSeleccionada(idZonaSeleccionada)
-      // eslint-disable-next-line require-atomic-updates
-      zonas[indiceAModificar] = zonaElegida
-      setZonaSeleccionada(zonaElegida)
-    } catch (e) {
-      console.log(e)
-      toast.current.show({ severity: 'error', summary: 'Ocurrió un error al traer la zona de votación seleccionada.', detail: e.message})
-    }
-  }
-
   useEffect(() => {
     const getZonas = async function() { 
       try {
         const zonas = await zonaService.zonas()
+        console.info(zonas)
         if (!isEmpty(zonas)) {
-          await elegirZona(zonas, zonas[0])
+          setZonaSeleccionada(zonas[0])
         }
         setZonas(zonas)
       } catch (e) {

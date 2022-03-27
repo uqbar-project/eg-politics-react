@@ -1,10 +1,6 @@
 import { candidateService } from "./candidateService"
 
-let zonas = []
-
-initZonas().then((nuevasZonas) => { zonas = nuevasZonas })
-
-async function initZonas() {
+async function zonasActivas() {
   return [
     {descripcion: 'Elecciones nacionales', id: 1, candidates: [
       await candidateService.buscarPorNombre('Laura Comizzo'),
@@ -23,7 +19,7 @@ async function initZonas() {
 class ZonaService {
 
   async zonas() {
-    return zonas
+    return zonasActivas()
   }
 
 }
