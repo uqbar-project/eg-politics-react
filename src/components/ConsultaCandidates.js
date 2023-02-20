@@ -47,6 +47,7 @@ export const ConsultaCandidates = function() {
     }, []
   )
 
+
   const registrarVoto = function(candidate) {
     return <Button icon="pi pi-user-plus" tooltip="Registrar Voto" className="p-button-secondary p-button-raised p-button-rounded" onClick={async () => {
       try {
