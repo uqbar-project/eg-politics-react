@@ -1,27 +1,22 @@
-import { Candidate } from "../domain/candidate"
+import axios from 'axios'
+import { Candidate } from '../domain/candidate'
+import { SERVER_CONNECTION } from './serverConstants'
 
-const candidates = [
-  new Candidate('Laura Comizzo', 'PJ', ['Acabar con la inseguridad', 'Mejorar el bienestar general']),
-  new Candidate('Julián Mosquera', 'PUNSAM', ['Subir el nivel de excelencia académico']),
-  new Candidate('Eleonor Rigby', 'Unión Beatle', ['Que la gente no se sienta tan sola', 'Subir el subsidio en educación', 'Bajar el desempleo']),
-  new Candidate('Alcalde Diamante', 'Partido Demócrata', []),
-  new Candidate('Bob Patiño', 'Partido Republicano', ['Die Bart Die', 'Alemán obligatorio en las escuelas']),
-  new Candidate('Kang', 'Aliens Unidos', ['Girar y girar hacia la libertad']),
-  new Candidate('Kodos', 'Partido Alienígena Auténtico', ['Banderitas para unos', 'Aborto para otros']),
-]
+const CANDIDATE_URI = '/candidates/'
 
 class CandidateService {
 
-  async buscarPorNombre(nombre) {
-    return candidates.find((candidate) => candidate.buscarPorNombre(nombre))
+  async buscarPorId(idCandidate) {
+    const candidate = await axios.get(SERVER_CONNECTION + CANDIDATE_URI + idCandidate)
+    const { id, nombre, partido, promesas } = candidate.data
+    return new Candidate(id, nombre, partido.nombre, promesas)
   }
 
-  async buscarPorId(id) {
-    return candidates.find((candidate) => candidate.id === parseInt(id))
-  }
-
-  async actualizar() {
-    // por ahora no hace anda
+  async actualizar(candidate) {
+    await axios.put(SERVER_CONNECTION + CANDIDATE_URI + candidate.id, {
+      votos: candidate.votos,
+      promesas: candidate.promesas.map(promesa => promesa.toDTO()),
+    })
   }
 }
 

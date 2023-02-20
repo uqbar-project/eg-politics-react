@@ -1,25 +1,25 @@
-import { candidateService } from "./candidateService"
+import axios from 'axios'
+import { Candidate } from '../domain/candidate'
+import { SERVER_CONNECTION } from './serverConstants'
 
-async function zonasActivas() {
-  return [
-    {descripcion: 'Elecciones nacionales', id: 1, candidates: [
-      await candidateService.buscarPorNombre('Laura Comizzo'),
-      await candidateService.buscarPorNombre('Julián Mosquera'),
-      await candidateService.buscarPorNombre('Eleonor Rigby')
-    ]},
-    {descripcion: 'Springfield', id: 2, candidates: [
-      await candidateService.buscarPorNombre('Alcalde Diamante'),
-      await candidateService.buscarPorNombre('Bob Patiño'),
-      await candidateService.buscarPorNombre('Kang'),
-      await candidateService.buscarPorNombre('Kodos'),
-    ]},
-  ]
-}
+const ZONA_URI = '/zonas'
 
 class ZonaService {
 
   async zonas() {
-    return zonasActivas()
+    const callToZonas = await axios.get(SERVER_CONNECTION + ZONA_URI)
+    return callToZonas.data
+  }
+
+  async getZonaSeleccionada(id) {
+    const callToZonaSeleccionada = await axios.get(SERVER_CONNECTION + ZONA_URI + '/' + id)
+    const zona = callToZonaSeleccionada.data
+    zona.candidates = zona.candidates.map(({ id, nombre, partido, votos }) => {
+      const candidate = new Candidate(id, nombre, partido, [])
+      candidate.votos = votos
+      return candidate
+    })
+    return zona
   }
 
 }

@@ -2,6 +2,7 @@ import { Dropdown } from 'primereact/dropdown'
 import { DataTable } from 'primereact/datatable'
 import { Button } from 'primereact/button'
 import { Column } from 'primereact/column'
+import { Toast } from 'primereact/toast'
 import { useRef, useEffect, useState } from 'react'
 import { zonaService } from '../services/zonaService'
 import { isEmpty } from 'lodash'
@@ -15,13 +16,26 @@ export const ConsultaCandidates = function() {
   const navigate = useNavigate()
   const toast = useRef(null)
 
+  async function elegirZona(zonas, zona) {
+    try {
+      const idZonaSeleccionada = zona.id
+      const indiceAModificar = zonas.map((zona) => zona.id).indexOf(idZonaSeleccionada)
+      const zonaElegida = await zonaService.getZonaSeleccionada(idZonaSeleccionada)
+      // eslint-disable-next-line require-atomic-updates
+      zonas[indiceAModificar] = zonaElegida
+      setZonaSeleccionada(zonaElegida)
+    } catch (e) {
+      console.log(e)
+      toast.current.show({ severity: 'error', summary: 'Ocurrió un error al traer la zona de votación seleccionada.', detail: e.message})
+    }
+  }
+
   useEffect(() => {
     const getZonas = async function() { 
       try {
         const zonas = await zonaService.zonas()
-        console.info(zonas)
         if (!isEmpty(zonas)) {
-          setZonaSeleccionada(zonas[0])
+          await elegirZona(zonas, zonas[0])
         }
         setZonas(zonas)
       } catch (e) {
@@ -35,11 +49,15 @@ export const ConsultaCandidates = function() {
 
 
   const registrarVoto = function(candidate) {
-    return <Button icon="pi pi-user-plus" tooltip="Registrar Voto" className="p-button-secondary p-button-raised p-button-rounded" onClick={() => {
-      candidate.registrarVoto()
-      // por ahora es un JSON, se puede hacer una copia
-      setZonaSeleccionada({ ...zonaSeleccionada })
-      candidateService.actualizar()
+    return <Button icon="pi pi-user-plus" tooltip="Registrar Voto" className="p-button-secondary p-button-raised p-button-rounded" onClick={async () => {
+      try {
+        candidate.registrarVoto()
+        await candidateService.actualizar(candidate)
+        setZonaSeleccionada({ ...zonaSeleccionada })
+      } catch (e) {
+        console.log(e)
+        toast.current.show({ severity: 'error', summary: 'Ocurrió un error al traer las zonas de votación.', detail: e.message})
+      }
     }}/>
   }
 
@@ -53,16 +71,19 @@ export const ConsultaCandidates = function() {
         Consulta de Candidates
       </div>
       <div className="section">
-        <Dropdown style={{width: '20em', textAlign: 'left'}} optionLabel="descripcion" value={zonaSeleccionada} options={zonas} onChange={(e) => {setZonaSeleccionada(e.value)}} placeholder="Seleccione una zona"/>
+        <Dropdown style={{width: '20em', textAlign: 'left'}} optionLabel="descripcion" value={zonaSeleccionada} options={zonas} onChange={(e) => {elegirZona(zonas, e.value)}} placeholder="Seleccione una zona"/>
       </div>
       <div>
         <DataTable value={orderBy(zonaSeleccionada?.candidates, ['votos'], ['desc'])}>
           <Column field="nombre" header="Nombre"></Column>
-          <Column field="partido" header="Partido"></Column>
+          <Column field="partido.nombre" header="Partido"></Column>
           <Column field="votos" header="Votos"></Column>
           <Column body={registrarVoto} style={{width:'7em'}} />
           <Column body={verFicha} style={{width:'10em'}} />
         </DataTable>
+        <div className="section">
+          <Toast ref={toast} />
+        </div>
       </div>
     </div>
   )

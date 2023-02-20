@@ -31,12 +31,3 @@ En la pantalla principal podemos seleccionar la zona de votación, lo que define
 
 - Cada candidato pertenece a una zona y a un partido político a la vez. 
 - Hay una relación many-to-many entre Zona y Partido (un partido está en varias zonas y en cada zona compiten varios partidos). Candidato termina resultando una entidad asociativa pero ojo, es importante para el negocio.
-
-## Cómo seguir
-
-- la resolución del backend está en [este repositorio](https://github.com/uqbar-project/eg-politics-react)
-- la solución que utiliza el backend REST está en el branch [`final`](https://github.com/uqbar-project/eg-politics-react/tree/final)
-- la explicación está en [este apunte](https://docs.google.com/document/d/13vAmPKbWfWpRWze3AhLwnCHfWktfIIXnju3PD_tzyW4/edit)
-
-
-
