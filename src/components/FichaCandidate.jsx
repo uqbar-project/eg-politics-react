@@ -3,10 +3,11 @@ import { Column } from 'primereact/column'
 import { DataTable } from 'primereact/datatable'
 import { InputText } from 'primereact/inputtext'
 import { Toast } from 'primereact/toast'
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Candidate } from '../domain/candidate'
-import { candidateService } from '../services/candidateService'
+import { useOnInit } from 'src/customHooks/useOnInit'
+import { Candidate } from 'src/domain/candidate'
+import { candidateService } from 'src/services/candidateService'
 
 export const FichaCandidate = function() {
   const {id} = useParams()
@@ -19,7 +20,17 @@ export const FichaCandidate = function() {
 
   const [candidate, setCandidate] = useState(new Candidate(null, '', ''))
   const [promesaNueva, setPromesaNueva] = useState('')
-  
+
+  const getCandidate = async function() { 
+    try {
+      const candidate = await candidateService.buscarPorId(id)
+      setCandidate(candidate)
+    } catch (e) {
+      console.log(e)
+      showError('Ocurrió un error al traer los datos de la persona candidata.')
+    }
+  }
+
   const agregarPromesa = async () => {
     try {
       if (!promesaNueva) return
@@ -31,24 +42,11 @@ export const FichaCandidate = function() {
     } catch (e) {
       console.log(e)
       showError('Ocurrió un error al actualizar los datos de la persona candidata.')
-      const candidate = await candidateService.buscarPorId(id)
-      setCandidate(candidate)
+      getCandidate()
     }
   }
 
-  useEffect(() => {
-    const getCandidate = async function() { 
-      try {
-        const candidate = await candidateService.buscarPorId(id)
-        setCandidate(candidate)
-      } catch (e) {
-        console.log(e)
-        showError('Ocurrió un error al traer los datos de la persona candidata.')
-      }
-    }
-    getCandidate()
-    }, []
-  )
+  useOnInit(getCandidate)
 
   return (
     <div>

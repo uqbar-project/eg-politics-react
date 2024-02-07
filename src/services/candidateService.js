@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Candidate } from '../domain/candidate'
+import { Candidate } from 'src/domain/candidate'
 import { SERVER_CONNECTION } from './serverConstants'
 
 const CANDIDATE_URI = '/candidates/'

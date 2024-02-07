@@ -4,11 +4,11 @@ import { Button } from 'primereact/button'
 import { Column } from 'primereact/column'
 import { Toast } from 'primereact/toast'
 import { useRef, useEffect, useState } from 'react'
-import { zonaService } from '../services/zonaService'
 import { isEmpty } from 'lodash'
 import { useNavigate } from 'react-router-dom'
 import { orderBy } from 'lodash'
-import { candidateService} from '../services/candidateService'
+import { candidateService } from 'src/services/candidateService'
+import { zonaService } from 'src/services/zonaService'
 
 export const ConsultaCandidates = function() {
   const [zonas, setZonas] = useState([])
