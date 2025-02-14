@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { SERVER_CONNECTION } from './serverConstants'
-import { Candidate } from 'src/domain/candidate'
+import { Candidate } from '../domain/candidate'
 
 const ZONA_URI = '/zonas'
 
@@ -11,10 +11,10 @@ class ZonaService {
     return callToZonas.data
   }
 
-  async getZonaSeleccionada(id) {
+  async getZonaSeleccionada(id: number) {
     const callToZonaSeleccionada = await axios.get(`${SERVER_CONNECTION}${ZONA_URI}/${id}`)
     const zona = callToZonaSeleccionada.data
-    zona.candidates = zona.candidates.map(({ id, nombre, partido, votos }) => {
+    zona.candidates = zona.candidates.map(({ id, nombre, partido, votos }: Candidate) => {
       const candidate = new Candidate(id, nombre, partido, [])
       candidate.votos = votos
       return candidate

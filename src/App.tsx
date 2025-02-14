@@ -1,9 +1,9 @@
-import { PoliticsRoutes } from './routes'
+import { PoliticsRouter } from './routes'
 
 function App() {
   return (
     <div className="App">
-      <PoliticsRoutes/>
+      <PoliticsRouter/>
     </div>
   )
 }

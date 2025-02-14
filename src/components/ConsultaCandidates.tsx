@@ -7,16 +7,18 @@ import { useRef, useEffect, useState } from 'react'
 import { isEmpty } from 'lodash'
 import { useNavigate } from 'react-router-dom'
 import { orderBy } from 'lodash'
-import { candidateService } from 'src/services/candidateService'
-import { zonaService } from 'src/services/zonaService'
+import { candidateService } from '../services/candidateService'
+import { zonaService } from '../services/zonaService'
+import { Candidate } from '../domain/candidate'
+import { Zona } from '../domain/zona'
 
 export const ConsultaCandidates = function() {
-  const [zonas, setZonas] = useState([])
-  const [zonaSeleccionada, setZonaSeleccionada] = useState(undefined)
+  const [zonas, setZonas] = useState<Zona[]>([])
+  const [zonaSeleccionada, setZonaSeleccionada] = useState<Zona | undefined>(undefined)
   const navigate = useNavigate()
-  const toast = useRef(null)
+  const toast = useRef<Toast | null>(null)
 
-  async function elegirZona(zonas, zona) {
+  async function elegirZona(zonas: |Zona[], zona: Zona) {
     try {
       const idZonaSeleccionada = zona.id
       const indiceAModificar = zonas.map((zona) => zona.id).indexOf(idZonaSeleccionada)
@@ -24,9 +26,9 @@ export const ConsultaCandidates = function() {
       // eslint-disable-next-line require-atomic-updates
       zonas[indiceAModificar] = zonaElegida
       setZonaSeleccionada(zonaElegida)
-    } catch (e) {
+    } catch (e: any) {
       console.log(e)
-      toast.current.show({ severity: 'error', summary: 'Ocurrió un error al traer la zona de votación seleccionada.', detail: e.message})
+      toast.current!.show({ severity: 'error', summary: 'Ocurrió un error al traer la zona de votación seleccionada.', detail: e.message})
     }
   }
 
@@ -38,9 +40,9 @@ export const ConsultaCandidates = function() {
           await elegirZona(zonas, zonas[0])
         }
         setZonas(zonas)
-      } catch (e) {
+      } catch (e: any) {
         console.log(e)
-        toast.current.show({ severity: 'error', summary: 'Ocurrió un error al traer las zonas de votación.', detail: e.message})
+        toast.current!.show({ severity: 'error', summary: 'Ocurrió un error al traer las zonas de votación.', detail: e.message})
       }
     }
     getZonas()
@@ -48,20 +50,20 @@ export const ConsultaCandidates = function() {
   )
 
 
-  const registrarVoto = function(candidate) {
-    return <Button icon="pi pi-user-plus" tooltip="Registrar Voto" className="p-button-secondary p-button-raised p-button-rounded" onClick={async () => {
+  const registrarVoto = function(candidate: Candidate) {
+    return <Button icon="pi pi-user" tooltip="Registrar Voto" className="p-button-secondary p-button-raised p-button-rounded" onClick={async () => {
       try {
         candidate.registrarVoto()
         await candidateService.actualizar(candidate)
-        setZonaSeleccionada({ ...zonaSeleccionada })
-      } catch (e) {
+        setZonaSeleccionada({ ...zonaSeleccionada! })
+      } catch (e: any) {
         console.log(e)
-        toast.current.show({ severity: 'error', summary: 'Ocurrió un error al traer las zonas de votación.', detail: e.message})
+        toast.current!.show({ severity: 'error', summary: 'Ocurrió un error al traer las zonas de votación.', detail: e.message})
       }
     }}/>
   }
 
-  const verFicha = function(candidate) {
+  const verFicha = function(candidate: Candidate) {
     return <Button icon="pi pi-chevron-right" tooltip="Ver Ficha" className="p-button-secondary p-button-raised p-button-rounded p-button-outlined" onClick={() => {navigate('/ficha/' + candidate.id)}}/>
   }
 
