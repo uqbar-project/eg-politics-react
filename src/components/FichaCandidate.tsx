@@ -12,10 +12,10 @@ import { candidateService } from 'src/services/candidateService'
 export const FichaCandidate = function() {
   const {id} = useParams()
   const navigate = useNavigate()
-  const toast = useRef(null)
+  const toast = useRef<Toast | null>(null)
   
-  function showError(message) {
-    toast.current.show({ severity: 'error', summary: 'Ocurrió un error al actualizar los datos de la persona candidata.', detail: message})
+  function showError(message: string) {
+    toast.current!.show({ severity: 'error', summary: 'Ocurrió un error al actualizar los datos de la persona candidata.', detail: message})
   }
 
   const [candidate, setCandidate] = useState(new Candidate(null, '', ''))
@@ -23,7 +23,7 @@ export const FichaCandidate = function() {
 
   const getCandidate = async function() { 
     try {
-      const candidate = await candidateService.buscarPorId(id)
+      const candidate = await candidateService.buscarPorId(+id!)
       setCandidate(candidate)
     } catch (e) {
       console.log(e)
@@ -37,7 +37,7 @@ export const FichaCandidate = function() {
       candidate.agregarPromesa(promesaNueva)
       setPromesaNueva('')
       await candidateService.actualizar(candidate)
-      const nuevoCandidate = Object.assign(new Candidate(), candidate)
+      const nuevoCandidate = candidate.copy()
       setCandidate(nuevoCandidate)
     } catch (e) {
       console.log(e)

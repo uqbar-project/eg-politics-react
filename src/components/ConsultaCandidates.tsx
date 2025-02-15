@@ -23,12 +23,12 @@ export const ConsultaCandidates = function() {
       const idZonaSeleccionada = zona.id
       const indiceAModificar = zonas.map((zona) => zona.id).indexOf(idZonaSeleccionada)
       const zonaElegida = await zonaService.getZonaSeleccionada(idZonaSeleccionada)
-      // eslint-disable-next-line require-atomic-updates
+       
       zonas[indiceAModificar] = zonaElegida
       setZonaSeleccionada(zonaElegida)
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.log(e)
-      toast.current!.show({ severity: 'error', summary: 'Ocurrió un error al traer la zona de votación seleccionada.', detail: e.message})
+      toast.current!.show({ severity: 'error', summary: 'Ocurrió un error al traer la zona de votación seleccionada.', detail: (e as Error).message})
     }
   }
 
@@ -40,9 +40,9 @@ export const ConsultaCandidates = function() {
           await elegirZona(zonas, zonas[0])
         }
         setZonas(zonas)
-      } catch (e: any) {
+      } catch (e: unknown) {
         console.log(e)
-        toast.current!.show({ severity: 'error', summary: 'Ocurrió un error al traer las zonas de votación.', detail: e.message})
+        toast.current!.show({ severity: 'error', summary: 'Ocurrió un error al traer las zonas de votación.', detail: (e as Error).message})
       }
     }
     getZonas()
@@ -56,9 +56,9 @@ export const ConsultaCandidates = function() {
         candidate.registrarVoto()
         await candidateService.actualizar(candidate)
         setZonaSeleccionada({ ...zonaSeleccionada! })
-      } catch (e: any) {
+      } catch (e: unknown) {
         console.log(e)
-        toast.current!.show({ severity: 'error', summary: 'Ocurrió un error al traer las zonas de votación.', detail: e.message})
+        toast.current!.show({ severity: 'error', summary: 'Ocurrió un error al traer las zonas de votación.', detail: (e as Error).message})
       }
     }}/>
   }
