@@ -1,10 +1,10 @@
 ## Ejemplo Politics
 
-[![Build React App](https://github.com/uqbar-project/eg-politics-react/actions/workflows/build.yml/badge.svg)](https://github.com/uqbar-project/eg-politics-react/actions/workflows/build.yml) ![coverage](./badges/coverage-lines.svg)
+[![Build React App](https://github.com/uqbar-project/eg-politics-react/actions/workflows/build.yml/badge.svg)](https://github.com/uqbar-project/eg-politics-react/actions/workflows/build.yml) [![codecov](https://codecov.io/gh/uqbar-project/eg-politics-react/graph/badge.svg?token=P5QLF7MX27)](https://codecov.io/gh/uqbar-project/eg-politics-react)
 
 En este taller vamos a aprender a mapear un modelo de objetos con su contraparte implementada en un motor de base de datos relacional. En esta primera versión queremos presentar la UI que trabaja con un backend ficticio, para entender la problemática que vamos a resolver y para familiarizarnos con el modelo:
 
-![demo](./videos/demoNueva.gif)
+![demo](./video/demoNueva.gif)
 
 ## La aplicación
 
