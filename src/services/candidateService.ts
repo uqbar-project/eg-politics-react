@@ -6,17 +6,17 @@ const CANDIDATE_URI = '/candidates/'
 
 class CandidateService {
 
-  async buscarPorId(idCandidate: number) {
+  async buscarPorId(idCandidate: number): Promise<Candidate> {
     const candidate = await axios.get(SERVER_CONNECTION + CANDIDATE_URI + idCandidate)
     const { id, nombre, partido, promesas } = candidate.data
     return new Candidate(id, nombre, partido.nombre, promesas)
   }
 
-  async actualizar(candidate: Candidate) {
-    await axios.put(SERVER_CONNECTION + CANDIDATE_URI + candidate.id, {
+  async actualizar(candidate: Candidate): Promise<Candidate> {
+    return (await axios.patch(SERVER_CONNECTION + CANDIDATE_URI + candidate.id, {
       votos: candidate.votos,
       promesas: candidate.promesas.map(promesa => promesa.toDTO()),
-    })
+    })).data
   }
 
 }
