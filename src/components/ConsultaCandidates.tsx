@@ -18,7 +18,7 @@ export const ConsultaCandidates = function() {
   const navigate = useNavigate()
   const toast = useRef<Toast | null>(null)
 
-  async function elegirZona(zonas: |Zona[], zona: Zona) {
+  async function elegirZona(zonas: Zona[], zona: Zona) {
     try {
       const idZonaSeleccionada = zona.id
       const indiceAModificar = zonas.map((zona) => zona.id).indexOf(idZonaSeleccionada)
@@ -49,21 +49,22 @@ export const ConsultaCandidates = function() {
     }, []
   )
 
-
-  const registrarVoto = function(candidate: Candidate) {
-    return <Button icon="pi pi-user" tooltip="Registrar Voto" className="p-button-secondary p-button-raised p-button-rounded" onClick={async () => {
-      try {
-        candidate.registrarVoto()
-        await candidateService.actualizar(candidate)
-        setZonaSeleccionada({ ...zonaSeleccionada! })
-      } catch (e: unknown) {
-        console.log(e)
-        toast.current!.show({ severity: 'error', summary: 'Ocurrió un error al traer las zonas de votación.', detail: (e as Error).message})
-      }
-    }}/>
+  const votar = async (candidate: Candidate) => {
+    try {
+      candidate.registrarVoto()
+      await candidateService.actualizar(candidate)
+      elegirZona(zonas, zonaSeleccionada!)
+    } catch (e: unknown) {
+      console.log(e)
+      toast.current!.show({ severity: 'error', summary: 'Ocurrió un error al traer las zonas de votación.', detail: (e as Error).message})
+    }
   }
 
-  const verFicha = function(candidate: Candidate) {
+  const registrarVoto = (candidate: Candidate) => {
+    return <Button icon="pi pi-user" tooltip="Registrar Voto" className="p-button-secondary p-button-raised p-button-rounded" onClick={() => votar(candidate)}/>
+  }
+
+  const verFicha = (candidate: Candidate) => {
     return <Button icon="pi pi-chevron-right" tooltip="Ver Ficha" className="p-button-secondary p-button-raised p-button-rounded p-button-outlined" onClick={() => {navigate('/ficha/' + candidate.id)}}/>
   }
 
