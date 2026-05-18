@@ -31,3 +31,11 @@ En la pantalla principal podemos seleccionar la zona de votación, lo que define
 
 - Cada candidato pertenece a una zona y a un partido político a la vez. 
 - Hay una relación many-to-many entre Zona y Partido (un partido está en varias zonas y en cada zona compiten varios partidos). Candidato termina resultando una entidad asociativa pero ojo, es importante para el negocio.
+
+## Para ejecutarlo en la nube
+
+En lugar de apuntar a `http://localhost:8080` cambiá en tu `.env` la URL de tu backend
+
+```bash
+VITE_SERVER_CONNECTION=https://politics-springboot-kotlin.onrender.com
+```
